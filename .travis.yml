@@ -16,3 +16,16 @@ before_install:
 # use to give command to run the docker image that we create and run test.
 script:
     - docker run -e CI=true amitumrikar:docker-react npm run test
+
+#setup for deployment
+deploy:
+    provider: elasticbeanstalk  #cloud provider in this case aws elasticbeanstack
+    region: "us-east-2"  #region in which is created
+    app: "docker-react"  #application name as in aws app created name
+    env: "DockerReact-env" # env name is present inside app name in aws
+    bucket_name: "elasticbeanstalk-us-east-2-826383728656"  # s3(storage disk name of aws)where travis is going to put app's zip folder
+    bucket_path: "docker-react" #path will be simple application name.
+    on:
+       branch: master # this specific travic that do deployment when change is done in master branch
+    access_key_id : $AWS_API_KEY
+    secret_access_key: $AWS_API_SECRET
