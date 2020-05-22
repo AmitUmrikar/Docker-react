@@ -1,7 +1,7 @@
 #First stage of build the app
-FROM node:alpine As buildPhase
+FROM node:alpine
 WORKDIR /app
-COPY package.json .
+COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
@@ -10,4 +10,4 @@ RUN npm run build
 FROM nginx
 #for elasticBeanStack to expose this port to outside world
 EXPOSE 80 
-COPY --from=buildPhase  /app/build /usr/share/nginx/html 
+COPY --from=0  /app/build /usr/share/nginx/html 
